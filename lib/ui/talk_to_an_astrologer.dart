@@ -28,9 +28,43 @@ class TalkToAstrologer extends ViewModelWidget<HomeViewModel>{
                   onTap: model.toggleSearch,
                 ),
                 8.widthBox,
-                InkWell(
+                PopupMenuButton<int>(
+                  //onSelected: model.setLanguageFilter,
                   child: Image.asset("assets/filter.png", height: 20),
-                  onTap: (){},
+                  itemBuilder: (_) => <PopupMenuEntry<int>>[
+                    PopupMenuItem(enabled: false, child: "Languages".text.isIntrinsic.textStyle(context.textTheme.caption).color(AppColors.iconColor).make()),
+                    const PopupMenuDivider(height: 2),
+                    for(var key in model.languageFilter.keys)
+                      PopupMenuItem<int>(
+                        value: key,
+                        child: RadioListTile(
+                          activeColor: AppColors.iconColor,
+                          groupValue: model.languageFilterId,
+                          value: key,
+                          onChanged: (val){
+                            Navigator.pop(context);
+                            model.setLanguageFilter(val);
+                          },
+                          title: model.languageFilter[key].toString().text.textStyle(context.textTheme.bodyText1).isIntrinsic.make(),
+                        )
+                      ),
+                    PopupMenuItem(enabled: false, child: "Skills".text.isIntrinsic.textStyle(context.textTheme.caption).color(AppColors.iconColor).make()),
+                    const PopupMenuDivider(height: 2),
+                    for(var key in model.skillsFilter.keys)
+                      PopupMenuItem<int>(
+                        value: key,
+                        child: RadioListTile(
+                          activeColor: AppColors.iconColor,
+                          groupValue: model.skillsFilterId,
+                          value: key,
+                          onChanged: (val) {
+                            Navigator.pop(context);
+                            model.setSkillsFilter(val);
+                          },
+                          title: model.skillsFilter[key].toString().text.textStyle(context.textTheme.bodyText1).isIntrinsic.make(),
+                        )
+                      ),
+                  ]
                 ),
                 8.widthBox,
                 PopupMenuButton<int>(
@@ -43,7 +77,7 @@ class TalkToAstrologer extends ViewModelWidget<HomeViewModel>{
                       CheckedPopupMenuItem<int>(
                         value: key,
                         checked: key == model.sortBy,
-                        child: model.sortByOptions[key].toString().text.isIntrinsic.make()
+                        child: model.sortByOptions[key].toString().text.textStyle(context.textTheme.bodyText1).isIntrinsic.make()
                       ),
                   ]
                 ),
@@ -79,10 +113,14 @@ class TalkToAstrologer extends ViewModelWidget<HomeViewModel>{
         Expanded(
           child: MyStreamBuilder<List<AgentModel>>(
             stream: model.agents,
-            loadingChild: const SizedBox.shrink(),
+            loadingChild: const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.iconColor),
+              ),
+            ),
             onDataWidget: (List<AgentModel> data){
               if(data.isEmpty)
-                return const SizedBox.shrink();
+                return "No Astrologers found.".text.textStyle(context.textTheme.bodyText1).makeCentered();
               return ListView.separated(
                 itemCount: data.length,
                 shrinkWrap: true,

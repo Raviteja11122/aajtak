@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:india_today_task/core/constants/app_colors.dart';
 import 'package:india_today_task/core/view_models/home_view_models.dart';
-import 'package:india_today_task/ui/keep_alive.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:stacked/stacked.dart';
 
@@ -46,6 +45,8 @@ class HomeView extends StatelessWidget {
           onTap: model.setTabIndex,
           currentIndex: model.tabIndex,
           type: BottomNavigationBarType.fixed,
+          selectedLabelStyle: Theme.of(context).textTheme.caption.copyWith(fontSize: 9),
+          unselectedLabelStyle: Theme.of(context).textTheme.caption.copyWith(fontSize: 9),
           items: const [
             BottomNavigationBarItem(icon: Icon(LineIcons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(LineIcons.comment), label: "Talk to astrologer"),

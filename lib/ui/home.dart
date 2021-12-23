@@ -68,7 +68,6 @@ class Home extends ViewModelWidget<HomeViewModel> {
                               model.setPlaceId(suggestion.placeId);
                             },
                             itemBuilder: (context, Places suggestion) {
-                              debugPrint(suggestion.toJson().toString());
                               return ListTile(
                                 title: Text(suggestion.placeName),
                               );

@@ -18,3 +18,4 @@ samples, guidance on mobile development, and a full API reference.
 ## Version
 - [flutter](https://flutter.dev/docs) 2.8 is used for this project,
 - [dart](https://dart.dev/) 2.10 version used.
+- Provider used for state management
